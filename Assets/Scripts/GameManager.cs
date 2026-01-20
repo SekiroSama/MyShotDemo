@@ -7,20 +7,29 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public static GameManager Instance;
 
+    //对外提供单例的访问方式
+    public CameraManager cameraManager;
     [HideInInspector]
     public GameObject player;
     [HideInInspector]
     public List<GameObject> enemys;
 
+    //内部使用
     [SerializeField]
     private GameObject plaeyrPrefab;
     public Transform playerBornPos;
     [SerializeField]
     private GameObject enemyPrefab;
     public Transform enemyBornPos;
+
     private void Awake()
     {
         _instance = this;
+
+        // 1. 关闭垂直同步 (必须！否则锁帧无效)
+        QualitySettings.vSyncCount = 0;
+        // 2. 设置目标帧率 (比如 60 或 -1) -1表示不限制帧率
+        Application.targetFrameRate = 60;
     }
 
 
@@ -29,6 +38,8 @@ public class GameManager : MonoBehaviour
     {
         InitPlayer();
         InitEnemy();
+
+        cameraManager.Init(player.transform);
     }
 
     // Update is called once per frame
