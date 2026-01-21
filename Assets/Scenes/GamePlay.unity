@@ -466,6 +466,7 @@ MonoBehaviour:
   playerBornPos: {fileID: 1439879871}
   enemyPrefab: {fileID: 2283722016396060129, guid: 6d56ca82abf843e47bd93da62980f7e6, type: 3}
   enemyBornPos: {fileID: 1242010969}
+  hitEffPrefab: {fileID: 6004892251492768541, guid: 8d0df6dda1206a44ea3de337923fc903, type: 3}
 --- !u!114 &2140744389
 MonoBehaviour:
   m_ObjectHideFlags: 0

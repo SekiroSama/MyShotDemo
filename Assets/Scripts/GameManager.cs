@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
-    public static GameManager Instance;
+    public static GameManager Instance => _instance;
 
     //对外提供单例的访问方式
     public CameraManager cameraManager;
@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject enemyPrefab;
     public Transform enemyBornPos;
+    public GameObject hitEffPrefab;
 
     private void Awake()
     {
@@ -62,5 +63,13 @@ public class GameManager : MonoBehaviour
         GameObject enemy = Instantiate(enemyPrefab);
         enemys.Add(enemy);
         enemy.transform.position = enemyBornPos.position;
+    }
+
+    public void ShowHitEffect(Vector3 pos)
+    {
+        //TODO 显示命中效果
+        GameObject hitEff = Instantiate(hitEffPrefab);
+        hitEff.transform.position = pos;
+        Destroy(hitEff, 0.2f);
     }
 }

@@ -41,6 +41,7 @@ public class MapManager : MonoBehaviour
                     cube.transform.position = new Vector3(j, -i, 0) + startPos;
                     cube.transform.SetParent(mapParent);
                     cube.layer = LayerMask.NameToLayer("Wall");
+                    cube.tag = "Wall";
                 }
             }
         }
