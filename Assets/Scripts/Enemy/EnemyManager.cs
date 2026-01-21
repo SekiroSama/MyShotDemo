@@ -8,10 +8,11 @@ public class EnemyManager : MonoBehaviour
     public float speed = -5f;
     public float hp = 2f;
 
+    private Material material;
     // Start is called before the first frame update
     void Start()
     {
-        
+        material = this.GetComponent<Renderer>().material;
     }
 
     // Update is called once per frame
@@ -46,7 +47,18 @@ public class EnemyManager : MonoBehaviour
         {
             Dead();
         }
+        TakeDamageEffOn();
         Debug.Log("Enemy took damage!");
+    }
+
+    private void TakeDamageEffOn()
+    {
+        material.color = Color.red;
+        Invoke("TakeDamageEffOff", 0.1f);
+    }
+    private void TakeDamageEffOff()
+    {
+        material.color = Color.black;
     }
 
     private void FlipModel()
