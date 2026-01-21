@@ -7,46 +7,57 @@ public class PlayerManager : MonoBehaviour
     public Transform gunPos;
     public GameObject bulletPrefab;
     private Rigidbody rb;
-    private CharacterController cc;
 
     public float speed = 5f;
     public float jumpForce = 5f;
+    public float fireRate = 0.5f;
 
     private GameObject bullet;
     private List<GameObject> bullets = new List<GameObject>();
 
     private Vector2 moveDir;
+    private bool isJump = false;
+    private float fireRateTimer = 0f;
+    private bool isFacingRight = true;
 
-    // Start is called before the first frame update
     void Awake()
     {
         rb = this.GetComponent<Rigidbody>();
-        cc = this.GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         HandInput();
 
-        if (Input.GetMouseButtonDown(0))
+        fireRateTimer += Time.deltaTime;
+        if (Input.GetMouseButton(0) && fireRateTimer >= fireRate)
         {
             Fire();
+            fireRateTimer = 0f;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && CheckIsGroundedOrEnemy())
         {
-            Jump();
+            isJump = true;
         }
+
 
         Move();
-        HandGravity();
     }
 
-    Vector3 gravity = new Vector3(0, -9.81f, 0);
-    private void HandGravity()
+    private void FixedUpdate()
     {
-        cc.Move(gravity * Time.deltaTime);
+        if (isJump)
+        {
+            Jump();
+            isJump = false;
+        }
+    }
+
+    private void FlipModel()
+    {
+        this.transform.localScale = new Vector3(-this.transform.localScale.x, this.transform.localScale.y, this.transform.localScale.z);
+        gunPos.Rotate(0, 180f, 0);
     }
 
     private void HandInput()
@@ -58,6 +69,7 @@ public class PlayerManager : MonoBehaviour
     {
         bullet = Instantiate(bulletPrefab);
         bullet.transform.position = new Vector3(gunPos.position.x, gunPos.position.y, 0);
+        bullet.transform.rotation = gunPos.rotation;
         bullets.Add(bullet);
     }
 
@@ -65,12 +77,59 @@ public class PlayerManager : MonoBehaviour
     {
         if(moveDir.sqrMagnitude > 0.001)
         {
-            cc.Move(moveDir * speed * Time.deltaTime);
+            this.transform.Translate(moveDir * speed * Time.deltaTime);
+        }
+
+        if((moveDir.x > 0.01 && !isFacingRight) || (moveDir.x < -0.01 && isFacingRight))
+        {
+            FlipModel();
+            isFacingRight = !isFacingRight;
         }
     }
 
     private void Jump()
     {
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    private bool CheckIsGroundedOrEnemy()
+    {
+        Vector3 pos = this.transform.position;
+        Ray ray = new Ray(pos, Vector3.down);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 0.6f))
+        {
+            if(hit.collider.CompareTag("Enemy"))
+            {
+                EnemyManager enemy = hit.collider.GetComponent<EnemyManager>();
+                enemy.TakeDamage();
+            }
+            return true;
+        }
+
+        pos.x += 0.5f;
+        ray = new Ray(pos, Vector3.down);
+        if (Physics.Raycast(ray, out hit, 0.6f))
+        {
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                EnemyManager enemy = hit.collider.GetComponent<EnemyManager>();
+                enemy.TakeDamage();
+            }
+            return true;
+        }
+
+        pos.x -= 1f;
+        ray = new Ray(pos, Vector3.down);
+        if (Physics.Raycast(ray, out hit, 0.6f))
+        {
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                EnemyManager enemy = hit.collider.GetComponent<EnemyManager>();
+                enemy.TakeDamage();
+            }
+            return true;
+        }
+        return false;
     }
 }

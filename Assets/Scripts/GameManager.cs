@@ -37,7 +37,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InitPlayer();
-        InitEnemy();
+        for (int i = 0; i < 4; i++)
+        {
+            Invoke("InitEnemy", i * 0.3f);
+        }
 
         cameraManager.Init(player.transform);
     }
