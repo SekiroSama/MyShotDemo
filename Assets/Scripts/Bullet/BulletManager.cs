@@ -27,7 +27,9 @@ public class BulletManager : MonoBehaviour
 
     private void Move()
     {
-        this.transform.Translate(speed * Time.deltaTime * this.transform.right);
+        // print(this.transform.right);
+        this.transform.Translate(speed * Time.deltaTime * this.transform.right, Space.World);//默认是局部坐标
+        //this.transform.position = this.transform.position + speed * Time.deltaTime * this.transform.right;
     }
 
     private void OnTriggerEnter(Collider other)

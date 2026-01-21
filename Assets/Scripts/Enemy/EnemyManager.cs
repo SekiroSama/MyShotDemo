@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CheckIsWall())
+        if (CheckIsWallorEnemy())
         {
             FlipModel();
             speed = -speed;
@@ -54,13 +54,13 @@ public class EnemyManager : MonoBehaviour
         this.transform.localScale = new Vector3(-this.transform.localScale.x, this.transform.localScale.y, this.transform.localScale.z);
     }
 
-    private bool CheckIsWall()
+    private bool CheckIsWallorEnemy()
     {
         Ray ray = new Ray(this.transform.position, Mathf.Sign(speed) * Vector3.right);
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo, 0.6f, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Enemy"), QueryTriggerInteraction.UseGlobal))
         {
-            Debug.Log("CheckIsWallorEnemy!");
+            //Debug.Log("CheckIsWallorEnemy!");
             return true;
         }
         return false;

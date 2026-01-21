@@ -6,6 +6,7 @@ public class PlayerManager : MonoBehaviour
 {
     public Transform gunPos;
     public GameObject bulletPrefab;
+    public GameObject gunFire;
     private Rigidbody rb;
 
     public float speed = 5f;
@@ -71,6 +72,18 @@ public class PlayerManager : MonoBehaviour
         bullet.transform.position = new Vector3(gunPos.position.x, gunPos.position.y, 0);
         bullet.transform.rotation = gunPos.rotation;
         bullets.Add(bullet);
+        ShowGunFire();
+    }
+
+    private void ShowGunFire()
+    {
+        gunFire.SetActive(true);
+        Invoke("HideGunFire", 0.1f);
+    }
+
+    private void HideGunFire()
+    {
+        gunFire.SetActive(false);
     }
 
     private void Move()
