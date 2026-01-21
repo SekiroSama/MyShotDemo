@@ -28,7 +28,7 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
-        HandInput();
+        HandHorizontalInput();
 
         fireRateTimer += Time.deltaTime;
         if (Input.GetMouseButton(0) && fireRateTimer >= fireRate)
@@ -42,7 +42,6 @@ public class PlayerManager : MonoBehaviour
             isJump = true;
         }
 
-
         Move();
     }
 
@@ -53,6 +52,8 @@ public class PlayerManager : MonoBehaviour
             Jump();
             isJump = false;
         }
+
+        rb.velocity = new Vector3(speed * moveDir.x, rb.velocity.y, 0);
     }
 
     private void FlipModel()
@@ -61,9 +62,9 @@ public class PlayerManager : MonoBehaviour
         gunPos.Rotate(0, 180f, 0);
     }
 
-    private void HandInput()
+    private void HandHorizontalInput()
     {
-        moveDir.x = Input.GetAxis("Horizontal");
+        moveDir.x = Input.GetAxisRaw("Horizontal");
     }
 
     private void Fire()
@@ -88,10 +89,10 @@ public class PlayerManager : MonoBehaviour
 
     private void Move()
     {
-        if(moveDir.sqrMagnitude > 0.001)
-        {
-            this.transform.Translate(moveDir * speed * Time.deltaTime);
-        }
+        //if(moveDir.sqrMagnitude > 0.001)
+        //{
+        //    this.transform.Translate(moveDir * speed * Time.deltaTime);
+        //}
 
         if((moveDir.x > 0.01 && !isFacingRight) || (moveDir.x < -0.01 && isFacingRight))
         {
