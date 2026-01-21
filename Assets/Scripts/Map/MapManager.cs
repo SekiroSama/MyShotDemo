@@ -19,6 +19,7 @@ public class MapManager : MonoBehaviour
 
     public Vector3 startPos;
     public Transform mapParent;
+    public Material material_Wall;
 
     private void Start()
     {
@@ -42,8 +43,10 @@ public class MapManager : MonoBehaviour
                     cube.transform.SetParent(mapParent);
                     cube.layer = LayerMask.NameToLayer("Wall");
                     cube.tag = "Wall";
+                    cube.GetComponent<Renderer>().material = material_Wall;
                 }
             }
         }
+        //StaticBatchingUtility.Combine(mapParent.gameObject);
     }
 }

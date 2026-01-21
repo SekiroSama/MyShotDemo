@@ -7,6 +7,7 @@ public class EnemyManager : MonoBehaviour
 {
     public float speed = -5f;
     public float hp = 2f;
+    public GameObject deadBodyPrefab;
 
     private Material material;
     // Start is called before the first frame update
@@ -80,8 +81,15 @@ public class EnemyManager : MonoBehaviour
 
     private void Dead()
     {
+        GenateDeadBody();
         Destroy(this.gameObject);
         Debug.Log("Enemy died!");
+    }
+    
+    private void GenateDeadBody()
+    {
+        GameObject deadBody = Instantiate(deadBodyPrefab);
+        deadBody.transform.position = this.transform.position + Vector3.down * 0.35f;
     }
 
     //void OnDrawGizmos()

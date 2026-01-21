@@ -230,7 +230,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &863181103
 Transform:
@@ -352,6 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1dffc615f48b4c4b8382ae718d0d486, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smoothSpeed: 5
 --- !u!1 &1242010968
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,6 +482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startPos: {x: -8.35, y: 5.48, z: 0}
   mapParent: {fileID: 863181103}
+  material_Wall: {fileID: 2100000, guid: efc1143b2fb86bf439ef9c6b56c38333, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
