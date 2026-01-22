@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GunModelManager : MonoBehaviour
 {
-    public float maxDelayDistrance = 0.5f;
+    public float maxDelayDistrance = 0.2f;
 
     private float maxDelayDistrance_pow2;
     private Vector3 playerPos;
@@ -14,13 +14,13 @@ public class GunModelManager : MonoBehaviour
 
     private void Start()
     {
-        playerPos = GameManager.Instance.player.transform.position;
         maxDelayDistrance_pow2 = maxDelayDistrance * maxDelayDistrance;
     }
 
     private void Update()
     {
-        lastOffset = lastPlayerPos - playerPos;
+        playerPos = GameManager.Instance.player.transform.position;
+        lastOffset = GameManager.Instance.player.transform.InverseTransformVector(lastPlayerPos - playerPos) ;
         lastPlayerPos = playerPos;
         if (lastOffset.sqrMagnitude == 0f)
         {
@@ -35,9 +35,6 @@ public class GunModelManager : MonoBehaviour
             tatolOffset = tatolOffset.normalized * maxDelayDistrance;
         }
 
-        Debug.Log(tatolOffset);
         transform.localPosition = Vector3.Lerp(transform.localPosition, tatolOffset, Time.deltaTime * 10f);
-
-        //if(playerPos - lastPlayerPos)
     }
 }

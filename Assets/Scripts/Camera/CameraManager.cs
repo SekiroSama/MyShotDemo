@@ -14,6 +14,8 @@ public class CameraManager : MonoBehaviour
     public bool isFireShaking = false;
     public bool isEnemydeadShaking = false;
 
+    public Vector3 offset;
+
     public void Init(Transform playerTransform)
     {
         this.playerTransform = playerTransform;
@@ -21,7 +23,7 @@ public class CameraManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        cameraFather.position = Vector3.Lerp(cameraFather.position, new Vector3(playerTransform.position.x, playerTransform.position.y, cameraFather.position.z), smoothSpeed * Time.deltaTime);
+        cameraFather.position = Vector3.Lerp(cameraFather.position, new Vector3(playerTransform.position.x, playerTransform.position.y, cameraFather.position.z) + offset, smoothSpeed * Time.deltaTime);
 
         if (isFireShaking)
         {
