@@ -49,6 +49,7 @@ public class EnemyManager : MonoBehaviour
             Dead();
         }
         TakeDamageEffOn();
+        GameManager.Instance.TimeStop(0.02f);
         Debug.Log("Enemy took damage!");
     }
 
