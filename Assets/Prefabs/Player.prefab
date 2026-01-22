@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1520756697254580987
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 680778188082721524}
+  m_Layer: 0
+  m_Name: GunPosDown
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &680778188082721524
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520756697254580987}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.9172001, y: -0.139, z: -0.021}
+  m_LocalScale: {x: 0.6, y: 0.15, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4862557500887033788}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1942828993438555326
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,6 +343,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5404097957130277899
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1632849749542618850}
+  m_Layer: 0
+  m_Name: BulletCaseBornPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1632849749542618850
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5404097957130277899}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.647, y: -0.075999975, z: -0.021}
+  m_LocalScale: {x: 0.6, y: 0.15, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4862557500887033788}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7248794980592641907
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,7 +384,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1459987123667128971}
   m_Layer: 0
-  m_Name: GunPos
+  m_Name: GunPosUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -336,8 +398,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7248794980592641907}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.9172001, y: -0.075999975, z: -0.021}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.9172001, y: -0.016, z: -0.021}
   m_LocalScale: {x: 0.6, y: 0.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -463,6 +525,9 @@ Transform:
   - {fileID: 4328536265673864938}
   - {fileID: 9111371358757497292}
   - {fileID: 1459987123667128971}
+  - {fileID: 6658822374846572407}
+  - {fileID: 680778188082721524}
+  - {fileID: 1632849749542618850}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8839231223436963125
@@ -575,10 +640,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4901dbb41a53f5a4484a59e658ee4a5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunPos: {fileID: 1459987123667128971}
+  gunPoses:
+  - {fileID: 1459987123667128971}
+  - {fileID: 6658822374846572407}
+  - {fileID: 680778188082721524}
   bulletPrefab: {fileID: 8163021314680838032, guid: ccebcb84825e6ed4c82bca641b3d9637, type: 3}
   gunFire: {fileID: 7580722404748963304}
+  bulletCasePrefab: {fileID: 2216512369627236497, guid: 7641127429385f24397befd2e3ab6b2b, type: 3}
+  bulletCaseBornTransform: {fileID: 1632849749542618850}
   speed: 5
   jumpForce: 8
   fireRate: 0.2
   recoilPower: 3
+--- !u!1 &9208393111337392591
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6658822374846572407}
+  m_Layer: 0
+  m_Name: GunPosVertical
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6658822374846572407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9208393111337392591}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.9172001, y: -0.075999975, z: -0.021}
+  m_LocalScale: {x: 0.6, y: 0.15, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4862557500887033788}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

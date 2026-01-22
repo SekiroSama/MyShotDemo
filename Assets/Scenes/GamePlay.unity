@@ -357,7 +357,7 @@ MonoBehaviour:
   shakeIntensity: 2.5
   isFireShaking: 0
   isEnemydeadShaking: 0
-  offset: {x: 2, y: 2, z: 0}
+  offset: {x: 3, y: 2, z: 0}
 --- !u!1 &1242010968
 GameObject:
   m_ObjectHideFlags: 0

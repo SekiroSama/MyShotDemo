@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public Transform gunPos;
+    public Transform[] gunPoses;
     public GameObject bulletPrefab;
     public GameObject gunFire;
+    public GameObject bulletCasePrefab;
+    public Transform bulletCaseBornTransform;
     private Rigidbody rb;
 
     public float speed = 5f;
@@ -57,7 +59,7 @@ public class PlayerManager : MonoBehaviour
 
         if (isTakeRecoiling)
         {
-            rb.AddForce(-gunPos.right * recoilPower, ForceMode.Impulse);
+            rb.AddForce(-this.transform.right * recoilPower, ForceMode.Impulse);
             isTakeRecoiling = false;
         }
 
@@ -67,7 +69,10 @@ public class PlayerManager : MonoBehaviour
     private void FlipModel()
     {
         this.transform.localScale = new Vector3(-this.transform.localScale.x, this.transform.localScale.y, this.transform.localScale.z);
-        gunPos.Rotate(0, 180f, 0);
+        foreach (Transform gunPos in gunPoses)
+        {
+            gunPos.Rotate(0, 180f, 0);
+        }
     }
 
     private void HandHorizontalInput()
@@ -77,13 +82,27 @@ public class PlayerManager : MonoBehaviour
 
     private void Fire()
     {
-        bullet = Instantiate(bulletPrefab);
-        bullet.transform.position = new Vector3(gunPos.position.x, gunPos.position.y, 0);
-        bullet.transform.rotation = gunPos.rotation;
-        bullets.Add(bullet);
+        foreach (Transform gunPos in gunPoses)
+        {
+            bullet = Instantiate(bulletPrefab);
+            bullet.transform.position = new Vector3(gunPos.position.x, gunPos.position.y, 0);
+            bullet.transform.rotation = gunPos.rotation;
+            bullets.Add(bullet);
+            GenerateBulletCase(gunPos);
+        }
+
         ShowGunFire();
         TakeRecoil();
         GameManager.Instance.cameraManager.isFireShaking = true;
+    }
+
+    private void GenerateBulletCase(Transform gunPos)
+    {
+        GameObject bulletCase = Instantiate(bulletCasePrefab);
+        bulletCase.transform.position = bulletCaseBornTransform.position;
+        bulletCase.transform.rotation = gunPos.rotation;
+        bulletCase.GetComponent<Rigidbody>().AddForce
+            ((isFacingRight ? -bulletCaseBornTransform.right : bulletCaseBornTransform.right) * Random.Range(2f, 3f) + bulletCaseBornTransform.up * Random.Range(3f, 5f), ForceMode.Impulse);
     }
 
     private void TakeRecoil()
@@ -104,15 +123,11 @@ public class PlayerManager : MonoBehaviour
 
     private void Move()
     {
-        //if(moveDir.sqrMagnitude > 0.001)
-        //{
-        //    this.transform.Translate(moveDir * speed * Time.deltaTime);
-        //}
-
         if((moveDir.x > 0.01 && !isFacingRight) || (moveDir.x < -0.01 && isFacingRight))
         {
             FlipModel();
             isFacingRight = !isFacingRight;
+            GameManager.Instance.cameraManager.offset = new Vector3(-GameManager.Instance.cameraManager.offset.x, GameManager.Instance.cameraManager.offset.y, GameManager.Instance.cameraManager.offset.z);
         }
     }
 
