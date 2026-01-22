@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
     public float speed = 5f;
     public float jumpForce = 5f;
     public float fireRate = 0.5f;
+    public float recoilPower = 0.5f;
 
     private GameObject bullet;
     private List<GameObject> bullets = new List<GameObject>();
@@ -20,6 +21,7 @@ public class PlayerManager : MonoBehaviour
     private bool isJump = false;
     private float fireRateTimer = 0f;
     private bool isFacingRight = true;
+    private bool isTakeRecoiling = false;
 
     void Awake()
     {
@@ -53,6 +55,12 @@ public class PlayerManager : MonoBehaviour
             isJump = false;
         }
 
+        if (isTakeRecoiling)
+        {
+            rb.AddForce(-gunPos.right * recoilPower, ForceMode.Impulse);
+            isTakeRecoiling = false;
+        }
+
         rb.velocity = new Vector3(speed * moveDir.x, rb.velocity.y, 0);
     }
 
@@ -74,7 +82,14 @@ public class PlayerManager : MonoBehaviour
         bullet.transform.rotation = gunPos.rotation;
         bullets.Add(bullet);
         ShowGunFire();
+        TakeRecoil();
         GameManager.Instance.cameraManager.isFireShaking = true;
+    }
+
+    private void TakeRecoil()
+    {
+        print("TakeRecoil");
+        isTakeRecoiling = true;
     }
 
     private void ShowGunFire()
