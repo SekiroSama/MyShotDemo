@@ -82,6 +82,7 @@ public class EnemyManager : MonoBehaviour
     private void Dead()
     {
         GenateDeadBody();
+        GameManager.Instance.cameraManager.isEnemydeadShaking = true;
         Destroy(this.gameObject);
         Debug.Log("Enemy died!");
     }

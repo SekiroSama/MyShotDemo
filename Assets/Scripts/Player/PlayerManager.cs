@@ -74,6 +74,7 @@ public class PlayerManager : MonoBehaviour
         bullet.transform.rotation = gunPos.rotation;
         bullets.Add(bullet);
         ShowGunFire();
+        GameManager.Instance.cameraManager.isFireShaking = true;
     }
 
     private void ShowGunFire()
