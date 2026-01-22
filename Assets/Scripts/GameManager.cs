@@ -17,11 +17,15 @@ public class GameManager : MonoBehaviour
     //内部使用
     [SerializeField]
     private GameObject plaeyrPrefab;
-    public Transform playerBornPos;
+    [SerializeField]
+    private Transform playerBornPos;
     [SerializeField]
     private GameObject enemyPrefab;
-    public Transform enemyBornPos;
-    public GameObject hitEffPrefab;
+    [SerializeField]
+    private Transform enemyBornPos;
+    [SerializeField]
+    private GameObject hitEffPrefab;
+    private Coroutine timeStopCoroutine;
 
     private void Awake()
     {
@@ -71,5 +75,19 @@ public class GameManager : MonoBehaviour
         GameObject hitEff = Instantiate(hitEffPrefab);
         hitEff.transform.position = pos;
         Destroy(hitEff, 0.2f);
+    }
+
+    public void TimeStop(float time)
+    {
+        Time.timeScale = 0.0f;
+        if(timeStopCoroutine != null) StopCoroutine(timeStopCoroutine);
+
+        timeStopCoroutine = StartCoroutine(ReStartTime(time));
+    }
+
+    IEnumerator ReStartTime(float waitTime)
+    {
+        yield return new WaitForSecondsRealtime(waitTime);
+        Time.timeScale = 1.0f;
     }
 }

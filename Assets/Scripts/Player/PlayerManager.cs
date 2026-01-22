@@ -88,7 +88,6 @@ public class PlayerManager : MonoBehaviour
 
     private void TakeRecoil()
     {
-        print("TakeRecoil");
         isTakeRecoiling = true;
     }
 
