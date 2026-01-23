@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
     public float speed = -5f;
     public float hp = 2f;
     public GameObject deadBodyPrefab;
+    public GameObject bigBoomPrefab;
 
     private Material material;
     // Start is called before the first frame update
@@ -43,6 +41,8 @@ public class EnemyManager : MonoBehaviour
 
     public void TakeDamage()
     {
+        if(hp <= 0) return;
+
         hp--;
         if(hp <= 0)
         {
@@ -58,6 +58,7 @@ public class EnemyManager : MonoBehaviour
         material.color = Color.red;
         Invoke("TakeDamageEffOff", 0.1f);
     }
+
     private void TakeDamageEffOff()
     {
         material.color = Color.black;
@@ -84,8 +85,18 @@ public class EnemyManager : MonoBehaviour
     {
         GenateDeadBody();
         GameManager.Instance.cameraManager.isEnemydeadShaking = true;
+        DeadRangeBigBoom();
         Destroy(this.gameObject);
-        Debug.Log("Enemy died!");
+    }
+
+    private void DeadRangeBigBoom()
+    {
+        float random = Random.Range(0f, 0.4f);
+        if(random >= 0.3f)
+        {
+            GameObject deadRangeBigBoom = Instantiate(bigBoomPrefab);
+            deadRangeBigBoom.transform.position = this.transform.position;
+        }
     }
     
     private void GenateDeadBody()

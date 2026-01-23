@@ -151,6 +151,7 @@ MonoBehaviour:
   speed: -5
   hp: 2
   deadBodyPrefab: {fileID: 1586000429168593936, guid: 2e2ebced9d11edb42b3bfe7efad91c47, type: 3}
+  bigBoomPrefab: {fileID: 9001906591880169211, guid: 0d623a8ac11b0514ea99cab1eb152a7b, type: 3}
 --- !u!1 &3724908810237610497
 GameObject:
   m_ObjectHideFlags: 0
