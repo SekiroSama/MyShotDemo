@@ -44,7 +44,7 @@ public class CameraManager : MonoBehaviour
     }
     private void CameraShaking_Fire()
     {
-        transform.localPosition += shakeIntensity * Time.deltaTime * Random.insideUnitSphere;
+        transform.localPosition += shakeIntensity * Time.deltaTime * Random.Range(0.5f, 1f) * (GameManager.Instance.player.GetIsFacingRight() ? -Vector3.right : Vector3.right);
     }
 
     private void StopCameraShaking_Fire()

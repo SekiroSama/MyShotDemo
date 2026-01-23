@@ -30,7 +30,7 @@ public class EnemyManager : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Enemy hit Player!");
+            other.GetComponent<PlayerManager>()?.TakeDamage();
         }
     }
 
@@ -50,7 +50,7 @@ public class EnemyManager : MonoBehaviour
         }
         TakeDamageEffOn();
         GameManager.Instance.TimeStop(0.02f);
-        Debug.Log("Enemy took damage!");
+        //Debug.Log("Enemy took damage!");
     }
 
     private void TakeDamageEffOn()
@@ -86,6 +86,7 @@ public class EnemyManager : MonoBehaviour
         GenateDeadBody();
         GameManager.Instance.cameraManager.isEnemydeadShaking = true;
         DeadRangeBigBoom();
+        GameManager.Instance.RemoveEnemy();
         Destroy(this.gameObject);
     }
 

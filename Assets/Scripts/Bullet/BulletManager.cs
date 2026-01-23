@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.PackageManager;
-using UnityEngine;
-using static UnityEditor.PlayerSettings;
+﻿using UnityEngine;
 
 public class BulletManager : MonoBehaviour
 {

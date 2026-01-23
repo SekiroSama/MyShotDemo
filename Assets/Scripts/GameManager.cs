@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class GameManager : MonoBehaviour
     //对外提供单例的访问方式
     public CameraManager cameraManager;
     [HideInInspector]
-    public GameObject player;
+    public PlayerManager player;
     [HideInInspector]
     public List<GameObject> enemys;
 
@@ -24,8 +25,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Transform enemyBornPos;
     [SerializeField]
+    private Transform enemyBornPos2;
+    [SerializeField]
     private GameObject hitEffPrefab;
     private Coroutine timeStopCoroutine;
+    private int maxEnemyCount = 16;
 
     private void Awake()
     {
@@ -42,10 +46,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InitPlayer();
-        for (int i = 0; i < 4; i++)
-        {
-            Invoke("InitEnemy", i * 0.3f);
-        }
+
+        StartCoroutine(GenrateEnemy());
 
         cameraManager.Init(player.transform);
     }
@@ -58,15 +60,41 @@ public class GameManager : MonoBehaviour
 
     private void InitPlayer()
     {
-        player = Instantiate(plaeyrPrefab);
+        player = Instantiate(plaeyrPrefab).GetComponent<PlayerManager>();
         player.transform.position = playerBornPos.position;
     }
 
-    private void InitEnemy()
+    IEnumerator GenrateEnemy()
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            InitEnemy(enemyBornPos);
+            yield return new WaitForSeconds(0.2f);
+        }
+        yield return new WaitForSeconds(2.0f);
+
+        for (int i = 0; i < 8; i++)
+        {
+            InitEnemy(enemyBornPos2);
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    private void InitEnemy(Transform enemyBornPos)
     {
         GameObject enemy = Instantiate(enemyPrefab);
         enemys.Add(enemy);
         enemy.transform.position = enemyBornPos.position;
+    }
+
+    public void RemoveEnemy()
+    {
+        maxEnemyCount--;
+        if(maxEnemyCount <= 0)
+        {
+            Invoke("GameRestart", 5f * Time.timeScale);
+            player.PlayWinAnimation();
+        }
     }
 
     public void ShowHitEffect(Vector3 pos)
@@ -89,5 +117,20 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(waitTime);
         Time.timeScale = 1.0f;
+    }
+
+    public void SetTargetFrameRate(int targetFrameRate)
+    {
+        Application.targetFrameRate = targetFrameRate;
+    }
+
+    public void SetTimeScale(float targetScale)
+    {
+        Time.timeScale = targetScale;
+    }
+
+    public void GameRestart()
+    {
+        SceneManager.LoadScene(0);
     }
 }

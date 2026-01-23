@@ -17,7 +17,7 @@ RenderSettings:
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.01
+  m_FogDensity: 1
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -96,7 +96,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: cb810292b268b7b489e529a4bd0cb935, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -259,6 +259,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -358,6 +359,27 @@ MonoBehaviour:
   isFireShaking: 0
   isEnemydeadShaking: 0
   offset: {x: 3, y: 2, z: 0}
+--- !u!114 &963194230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cd69650f73000040bdf8325ccfe6374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: e6fd4af73d5fbb74caac9905c5c2a48f, type: 3}
+  fogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  fogDensity: 0.6
+  fogStart: 0
+  fogEnd: 180
+  noiseTexture: {fileID: 2800000, guid: 340a32aa9d49a57458909d1175f512a7, type: 3}
+  noiseAmount: 0.5
+  fogXSpeed: 0.2
+  fogYSpeed: 0.05
 --- !u!1 &1242010968
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,7 +405,38 @@ Transform:
   m_GameObject: {fileID: 1242010968}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: 4, z: 0}
+  m_LocalPosition: {x: 11.01, y: -2.19, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1427439333
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1427439334}
+  m_Layer: 0
+  m_Name: EnemyBornPos2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1427439334
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427439333}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.09, y: 4.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -505,6 +558,7 @@ MonoBehaviour:
   playerBornPos: {fileID: 1439879871}
   enemyPrefab: {fileID: 2283722016396060129, guid: 6d56ca82abf843e47bd93da62980f7e6, type: 3}
   enemyBornPos: {fileID: 1242010969}
+  enemyBornPos2: {fileID: 1427439334}
   hitEffPrefab: {fileID: 6004892251492768541, guid: 8d0df6dda1206a44ea3de337923fc903, type: 3}
 --- !u!114 &2140744389
 MonoBehaviour:
@@ -543,4 +597,5 @@ SceneRoots:
   - {fileID: 2140744387}
   - {fileID: 1439879871}
   - {fileID: 1242010969}
+  - {fileID: 1427439334}
   - {fileID: 863181103}

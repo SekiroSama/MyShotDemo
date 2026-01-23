@@ -24,6 +24,7 @@ public class PlayerManager : MonoBehaviour
     private float fireRateTimer = 0f;
     private bool isFacingRight = true;
     private bool isTakeRecoiling = false;
+    private bool isDead = false;
 
     void Awake()
     {
@@ -32,6 +33,8 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
+        if(isDead) return;
+
         HandHorizontalInput();
 
         fireRateTimer += Time.deltaTime;
@@ -51,6 +54,7 @@ public class PlayerManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isDead) return;
         if (isJump)
         {
             Jump();
@@ -89,10 +93,10 @@ public class PlayerManager : MonoBehaviour
             bullet.transform.rotation = gunPos.rotation;
             bullets.Add(bullet);
             GenerateBulletCase(gunPos);
+            TakeRecoil();
         }
 
         ShowGunFire();
-        TakeRecoil();
         GameManager.Instance.cameraManager.isFireShaking = true;
     }
 
@@ -141,39 +145,113 @@ public class PlayerManager : MonoBehaviour
         Vector3 pos = this.transform.position;
         Ray ray = new Ray(pos, Vector3.down);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 0.6f))
+
+        RaycastHit[] hits = Physics.RaycastAll(ray, 0.6f, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Enemy"), QueryTriggerInteraction.UseGlobal);
+        for (int i = 0; i < hits.Length; i++)
         {
-            if(hit.collider.CompareTag("Enemy"))
+            if (hits[i].collider.CompareTag("Enemy"))
             {
-                EnemyManager enemy = hit.collider.GetComponent<EnemyManager>();
+                EnemyManager enemy = hits[i].collider.GetComponent<EnemyManager>();
                 enemy.TakeDamage();
             }
             return true;
         }
+
+        //if (Physics.Raycast(ray, out hit, 0.6f))
+        //{
+        //    if(hit.collider.CompareTag("Enemy"))
+        //    {
+        //        EnemyManager enemy = hit.collider.GetComponent<EnemyManager>();
+        //        enemy.TakeDamage();
+        //    }
+        //    return true;
+        //}
 
         pos.x += 0.5f;
         ray = new Ray(pos, Vector3.down);
-        if (Physics.Raycast(ray, out hit, 0.6f))
+        hits = Physics.RaycastAll(ray, 0.6f, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Enemy"), QueryTriggerInteraction.UseGlobal);
+        for (int i = 0; i < hits.Length; i++)
         {
-            if (hit.collider.CompareTag("Enemy"))
+            if (hits[i].collider.CompareTag("Enemy"))
             {
-                EnemyManager enemy = hit.collider.GetComponent<EnemyManager>();
+                EnemyManager enemy = hits[i].collider.GetComponent<EnemyManager>();
                 enemy.TakeDamage();
             }
             return true;
         }
 
+        //pos.x += 0.5f;
+        //ray = new Ray(pos, Vector3.down);
+        //if (Physics.Raycast(ray, out hit, 0.6f))
+        //{
+        //    if (hit.collider.CompareTag("Enemy"))
+        //    {
+        //        EnemyManager enemy = hit.collider.GetComponent<EnemyManager>();
+        //        enemy.TakeDamage();
+        //    }
+        //    return true;
+        //}
+
         pos.x -= 1f;
         ray = new Ray(pos, Vector3.down);
-        if (Physics.Raycast(ray, out hit, 0.6f))
+        hits = Physics.RaycastAll(ray, 0.6f, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Enemy"), QueryTriggerInteraction.UseGlobal);
+        for (int i = 0; i < hits.Length; i++)
         {
-            if (hit.collider.CompareTag("Enemy"))
+            if (hits[i].collider.CompareTag("Enemy"))
             {
-                EnemyManager enemy = hit.collider.GetComponent<EnemyManager>();
+                EnemyManager enemy = hits[i].collider.GetComponent<EnemyManager>();
                 enemy.TakeDamage();
             }
             return true;
         }
+
+        //pos.x -= 1f;
+        //ray = new Ray(pos, Vector3.down);
+        //if (Physics.Raycast(ray, out hit, 0.6f))
+        //{
+        //    if (hit.collider.CompareTag("Enemy"))
+        //    {
+        //        EnemyManager enemy = hit.collider.GetComponent<EnemyManager>();
+        //        enemy.TakeDamage();
+        //    }
+        //    return true;
+        //}
         return false;
+    }
+
+    public bool GetIsFacingRight()
+    {
+        return isFacingRight;
+    }
+
+    public void TakeDamage()
+    {
+        if(isDead) return;
+        Debug.Log("Player took damage!");
+        isDead = true;
+        PlayDeadAnimation();
+    }
+
+    private void PlayDeadAnimation()
+    {
+        this.GetComponent<Collider>().enabled = false;
+        rb.velocity = Vector3.zero;
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        GameManager.Instance.SetTargetFrameRate(10);
+        GameManager.Instance.SetTimeScale(1f / 6f);
+        Invoke("ReadyToRestart", 5f * Time.timeScale);
+    }
+
+    public void PlayWinAnimation()
+    {
+        Debug.Log("Player Win!");
+        isDead = true;//和死亡放一个动画
+        PlayDeadAnimation();
+    }
+
+    private void ReadyToRestart()
+    {
+        GameManager.Instance.SetTimeScale(1f);
+        GameManager.Instance.GameRestart();
     }
 }

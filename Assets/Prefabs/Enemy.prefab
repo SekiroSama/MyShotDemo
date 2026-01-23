@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 207711f174a468a4ca454cdea95ce5d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -5
+  speed: -8
   hp: 2
   deadBodyPrefab: {fileID: 1586000429168593936, guid: 2e2ebced9d11edb42b3bfe7efad91c47, type: 3}
   bigBoomPrefab: {fileID: 9001906591880169211, guid: 0d623a8ac11b0514ea99cab1eb152a7b, type: 3}
